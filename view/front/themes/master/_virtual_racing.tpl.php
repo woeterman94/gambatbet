@@ -35,13 +35,14 @@
 <?php if(App::Auth()->is_User()){
  $usid = App::Auth()->uid;
  $afid = Auth::$udata->afid;
- $gu = Db::run()->first(Users::mTable, array("stripe_cus"), array("id" => $usid));
+ $gu = Db::run()->first(Users::mTable, array("stripe_cus", "chips", "promo"), array("id" => $usid));
  $cur = $gu->stripe_cus;
  $rateResult = Db::run()->first("currencies", array("rate"), array("name" => $cur));
  $currencyRate = $rateResult ? (float)$rateResult->rate : 1;
  $virtualMinBet = number_format(max($currencyRate * 0.1, 0.01), 2, '.', '');
  $virtualMaxBet = number_format(max($currencyRate * 100, 1), 2, '.', '');
- $virtualRaceQuery = '?minBet=' . $virtualMinBet . '&maxBet=' . $virtualMaxBet;
+ $virtualStartingCredit = ((float)$gu->chips > (float)$virtualMinBet) ? (float)$gu->chips : (float)$gu->promo;
+ $virtualRaceQuery = '?minBet=' . $virtualMinBet . '&maxBet=' . $virtualMaxBet . '&credit=' . number_format($virtualStartingCredit, 2, '.', '');
  } else {
  $usid = 999999999; 
  $virtualRaceQuery = '';

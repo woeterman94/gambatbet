@@ -62,7 +62,20 @@
     window.VirtualGameStore = {
         getCredit: function (gameId, fallback) {
             var startingCredit = typeof fallback === 'number' ? fallback : DEFAULT_CREDIT;
-            return readNumber(buildKey(gameId, 'credit'), startingCredit);
+            var creditKey = buildKey(gameId, 'credit');
+            var storedCredit = read(creditKey);
+            if (storedCredit !== null) {
+                return readNumber(creditKey, startingCredit);
+            }
+
+            var queryCredit = queryNumber('credit');
+            if (queryCredit !== null) {
+                var seededCredit = toAmount(queryCredit, startingCredit);
+                write(creditKey, String(seededCredit));
+                return seededCredit;
+            }
+
+            return startingCredit;
         },
         setCredit: function (gameId, value) {
             var currentCredit = this.getCredit(gameId);
