@@ -67,11 +67,6 @@
 
 
 					 
-                    $(oMain).on("recharge", function(evt) {
-                             window.VirtualGameStore.resetCredit(GAME_ID);
-                             window.location.reload();
-                    });
-                    
                     $(oMain).on("start_session", function(evt) {
                         if(getParamValue('ctl-arcade') === "true"){
                             parent.__ctlArcadeStartSession();

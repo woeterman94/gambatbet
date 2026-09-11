@@ -55,7 +55,7 @@
             $(document).ready(function () {
                 const GAME_ID = "greyhound";
                 const STARTING_CREDIT = window.VirtualGameStore.getCredit(GAME_ID);
-                const BET_LIMITS = window.VirtualGameStore.getBetLimits(GAME_ID, {min: 1, max: 100});
+                const BET_LIMITS = window.VirtualGameStore.getBetLimits(GAME_ID, {min: 0.1, max: 100});
                 const GAME_CASH = Math.max(STARTING_CREDIT, BET_LIMITS.max);
                 const CHIP_VALUES = Array.from(new Set([BET_LIMITS.min].concat(
                     [1, 5, 10, 25, 50, 100].filter(function (value) {
