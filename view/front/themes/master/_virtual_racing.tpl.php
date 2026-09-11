@@ -39,8 +39,8 @@
  $cur = $gu->stripe_cus;
  $rateResult = Db::run()->first("currencies", array("rate"), array("name" => $cur));
  $currencyRate = $rateResult ? (float)$rateResult->rate : 1;
- $virtualMinBet = round($currencyRate * 0.1);
- $virtualMaxBet = round($currencyRate * 100);
+ $virtualMinBet = number_format(max($currencyRate * 0.1, 0.01), 2, '.', '');
+ $virtualMaxBet = number_format(max($currencyRate * 100, 1), 2, '.', '');
  $virtualRaceQuery = '?minBet=' . $virtualMinBet . '&maxBet=' . $virtualMaxBet;
  } else {
  $usid = 999999999; 

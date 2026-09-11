@@ -56,13 +56,16 @@
                 const GAME_ID = "greyhound";
                 const STARTING_CREDIT = window.VirtualGameStore.getCredit(GAME_ID);
                 const BET_LIMITS = window.VirtualGameStore.getBetLimits(GAME_ID, {min: 1, max: 100});
+                const CHIP_VALUES = [1, 5, 10, 25, 50, 100].map(function (value) {
+                    return Math.round(value * BET_LIMITS.min * 100) / 100;
+                });
                 var oMain = new CMain({
                     money:STARTING_CREDIT,           //USER MONEY
                     min_bet:BET_LIMITS.min,           //MINIMUM BET
                     max_bet:BET_LIMITS.max,           //MAXIMUM BET
                     win_occurrence: 20,   //WIN OCCURRENCE
                     game_cash:1,        //GAME CASH. STARTING MONEY THAT THE GAME CAN DELIVER.
-                    chip_values:[1,5,10,25,50,100], //VALUE OF CHIPS
+                    chip_values:CHIP_VALUES, //VALUE OF CHIPS
                     show_credits:true, //SET THIS VALUE TO FALSE IF YOU DON'T TO SHOW CREDITS BUTTON
                     fullscreen:true, //SET THIS TO FALSE IF YOU DON'T WANT TO SHOW FULLSCREEN BUTTON
                     check_orientation:true,     //SET TO FALSE IF YOU DON'T WANT TO SHOW ORIENTATION ALERT ON MOBILE DEVICES
