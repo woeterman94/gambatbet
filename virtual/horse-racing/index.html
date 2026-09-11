@@ -56,6 +56,7 @@
                 const GAME_ID = "horse-racing";
                 const STARTING_CREDIT = window.VirtualGameStore.getCredit(GAME_ID);
                 const BET_LIMITS = window.VirtualGameStore.getBetLimits(GAME_ID, {min: 1, max: 100});
+                const GAME_CASH = Math.max(STARTING_CREDIT, BET_LIMITS.max);
                 const CHIP_VALUES = Array.from(new Set([BET_LIMITS.min].concat(
                     [1, 5, 10, 25, 50, 100].filter(function (value) {
                         return value >= BET_LIMITS.min && value <= BET_LIMITS.max;
@@ -69,7 +70,7 @@
                     min_bet:BET_LIMITS.min,           //MINIMUM BET
                     max_bet:BET_LIMITS.max,       //MAXIMUM BET
                     win_occurrence:20,   //WIN OCCURRENCE
-                    game_cash:1,       //GAME CASH. STARTING MONEY THAT THE GAME CAN DELIVER.
+                    game_cash:GAME_CASH,       //GAME CASH. STARTING MONEY THAT THE GAME CAN DELIVER.
                     chip_values:CHIP_VALUES, //VALUE OF CHIPS
                     show_credits:true, //SET THIS VALUE TO FALSE IF YOU DON'T TO SHOW CREDITS BUTTON
                     fullscreen:true, //SET THIS TO FALSE IF YOU DON'T WANT TO SHOW FULLSCREEN BUTTON

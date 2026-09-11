@@ -63,16 +63,16 @@
         getCredit: function (gameId, fallback) {
             var startingCredit = typeof fallback === 'number' ? fallback : DEFAULT_CREDIT;
             var creditKey = buildKey(gameId, 'credit');
-            var storedCredit = read(creditKey);
-            if (storedCredit !== null) {
-                return readNumber(creditKey, startingCredit);
-            }
-
             var queryCredit = queryNumber('credit');
             if (queryCredit !== null) {
                 var seededCredit = toAmount(queryCredit, startingCredit);
                 write(creditKey, String(seededCredit));
                 return seededCredit;
+            }
+
+            var storedCredit = read(creditKey);
+            if (storedCredit !== null) {
+                return readNumber(creditKey, startingCredit);
             }
 
             return startingCredit;
