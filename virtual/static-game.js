@@ -63,6 +63,7 @@
         getCredit: function (gameId, fallback) {
             var startingCredit = typeof fallback === 'number' ? fallback : DEFAULT_CREDIT;
             var creditKey = buildKey(gameId, 'credit');
+            var creditSeedKey = buildKey(gameId, 'credit-seed');
             var launchKey = buildKey(gameId, 'launch');
             var queryCredit = queryNumber('credit');
             var queryLaunch = null;
@@ -71,22 +72,22 @@
                 queryLaunch = new URLSearchParams(window.location.search).get('launch');
             } catch (error) {}
 
-            if (queryCredit !== null && queryLaunch !== null && read(launchKey) !== queryLaunch) {
+            if (queryCredit !== null) {
                 var seededCredit = toAmount(queryCredit, startingCredit);
-                write(creditKey, String(seededCredit));
-                write(launchKey, queryLaunch);
-                return seededCredit;
+                var seedToken = queryLaunch !== null ? queryLaunch : String(seededCredit);
+                if (read(creditSeedKey) !== seedToken) {
+                    write(creditKey, String(seededCredit));
+                    write(creditSeedKey, seedToken);
+                    if (queryLaunch !== null) {
+                        write(launchKey, queryLaunch);
+                    }
+                    return seededCredit;
+                }
             }
 
             var storedCredit = read(creditKey);
             if (storedCredit !== null) {
                 return readNumber(creditKey, startingCredit);
-            }
-
-            if (queryCredit !== null) {
-                var initialCredit = toAmount(queryCredit, startingCredit);
-                write(creditKey, String(initialCredit));
-                return initialCredit;
             }
 
             return startingCredit;

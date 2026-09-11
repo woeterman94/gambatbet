@@ -39,9 +39,10 @@
  $cur = $gu->stripe_cus;
  $rateResult = Db::run()->first("currencies", array("rate"), array("name" => $cur));
  $currencyRate = $rateResult ? (float)$rateResult->rate : 1;
+ $virtualMinThreshold = round($currencyRate * 0.1);
  $virtualMinBet = number_format(max($currencyRate * 0.1, 0.01), 2, '.', '');
  $virtualMaxBet = number_format(max($currencyRate * 100, 1), 2, '.', '');
- $virtualStartingCredit = ((float)$gu->chips > (float)$virtualMinBet) ? (float)$gu->chips : (float)$gu->promo;
+ $virtualStartingCredit = ((float)$gu->chips > (float)$virtualMinThreshold) ? (float)$gu->chips : (float)$gu->promo;
  $virtualLaunchId = uniqid('virtual-race-', true);
  $virtualRaceQuery = '?minBet=' . $virtualMinBet . '&maxBet=' . $virtualMaxBet . '&credit=' . number_format($virtualStartingCredit, 2, '.', '') . '&launch=' . rawurlencode($virtualLaunchId);
  } else {
