@@ -35,8 +35,16 @@
 <?php if(App::Auth()->is_User()){
  $usid = App::Auth()->uid;
  $afid = Auth::$udata->afid;
+ $gu = Db::run()->first(Users::mTable, array("stripe_cus"), array("id" => $usid));
+ $cur = $gu->stripe_cus;
+ $rateResult = Db::run()->pdoQuery("SELECT rate FROM currencies WHERE name='$cur'");
+ $currencyRate = isset($rateResult->aResults[0]) ? (float)$rateResult->aResults[0]->rate : 1;
+ $virtualMinBet = round($currencyRate * 0.1);
+ $virtualMaxBet = round($currencyRate * 100);
+ $virtualRaceQuery = '?minBet=' . $virtualMinBet . '&maxBet=' . $virtualMaxBet;
  } else {
  $usid = 999999999; 
+ $virtualRaceQuery = '';
  } ?>
 
 
@@ -56,7 +64,7 @@
  <div class="horseracer">
  <div class="HOsw">
  <?php if(App::Auth()->is_User()):?>
- <a target="_blank" href="/virtual/horse-racing/">Play Now</a>
+ <a target="_blank" href="/virtual/horse-racing/<?php echo $virtualRaceQuery;?>">Play Now</a>
  <?php else:?>
  <a href="/login">Login To Play</a>
  <?php endif;?>
@@ -71,7 +79,7 @@
  <div class="horseracer grey">
  <div class="HOsw">
  <?php if(App::Auth()->is_User()):?>
- <a target="_blank" href="/virtual/greyhound/">Play Now</a>
+ <a target="_blank" href="/virtual/greyhound/<?php echo $virtualRaceQuery;?>">Play Now</a>
  <?php else:?>
  <a href="/login">Login To Play</a>
  <?php endif;?>

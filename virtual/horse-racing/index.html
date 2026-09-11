@@ -55,10 +55,11 @@
             $(document).ready(function () {
                 const GAME_ID = "horse-racing";
                 const STARTING_CREDIT = window.VirtualGameStore.getCredit(GAME_ID);
+                const BET_LIMITS = window.VirtualGameStore.getBetLimits(GAME_ID, {min: 1, max: 100});
                 var oMain = new CMain({
                     money:STARTING_CREDIT,           //USER MONEY
-                    min_bet:1,           //MINIMUM BET
-                    max_bet:100,       //MAXIMUM BET
+                    min_bet:BET_LIMITS.min,           //MINIMUM BET
+                    max_bet:BET_LIMITS.max,       //MAXIMUM BET
                     win_occurrence:20,   //WIN OCCURRENCE
                     game_cash:1,       //GAME CASH. STARTING MONEY THAT THE GAME CAN DELIVER.
                     chip_values:[1,5,10,25,50,100], //VALUE OF CHIPS
