@@ -42,7 +42,8 @@
  $virtualMinBet = number_format(max($currencyRate * 0.1, 0.01), 2, '.', '');
  $virtualMaxBet = number_format(max($currencyRate * 100, 1), 2, '.', '');
  $virtualStartingCredit = ((float)$gu->chips > (float)$virtualMinBet) ? (float)$gu->chips : (float)$gu->promo;
- $virtualRaceQuery = '?minBet=' . $virtualMinBet . '&maxBet=' . $virtualMaxBet . '&credit=' . number_format($virtualStartingCredit, 2, '.', '');
+ $virtualLaunchId = uniqid('virtual-race-', true);
+ $virtualRaceQuery = '?minBet=' . $virtualMinBet . '&maxBet=' . $virtualMaxBet . '&credit=' . number_format($virtualStartingCredit, 2, '.', '') . '&launch=' . rawurlencode($virtualLaunchId);
  } else {
  $usid = 999999999; 
  $virtualRaceQuery = '';
