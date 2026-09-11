@@ -55,7 +55,7 @@
             $(document).ready(function () {
                 const GAME_ID = "bingo";
                 const STARTING_CREDIT = window.VirtualGameStore.getCredit(GAME_ID);
-                const GAME_BANK = 1000;
+                const GAME_BANK = Math.max(STARTING_CREDIT, 1000);
                      var oMain = new CMain({  
                          
                                             bank_money : GAME_BANK,
