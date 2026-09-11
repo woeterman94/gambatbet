@@ -68,7 +68,8 @@
 
 					 
                     $(oMain).on("recharge", function(evt) {
-                             alert("add your recharge script in index.html");
+                             window.VirtualGameStore.resetCredit(GAME_ID);
+                             window.location.reload();
                     });
                     
                     $(oMain).on("start_session", function(evt) {
