@@ -104,8 +104,17 @@
         getBetLimits: function (gameId, defaults) {
             var minFallback = defaults && typeof defaults.min === 'number' ? defaults.min : 1;
             var maxFallback = defaults && typeof defaults.max === 'number' ? defaults.max : 100;
-            var minQuery = queryNumber('minBet');
-            var maxQuery = queryNumber('maxBet');
+            var minQuery = queryNumber(gameId + 'MinBet');
+            var maxQuery = queryNumber(gameId + 'MaxBet');
+
+            if (minQuery === null) {
+                minQuery = queryNumber('minBet');
+            }
+
+            if (maxQuery === null) {
+                maxQuery = queryNumber('maxBet');
+            }
+
             var resolvedMin = toAmount(minQuery, minFallback);
             var resolvedMax = toAmount(maxQuery, maxFallback);
 
