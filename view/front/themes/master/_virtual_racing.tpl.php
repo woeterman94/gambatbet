@@ -37,8 +37,8 @@
  $afid = Auth::$udata->afid;
  $gu = Db::run()->first(Users::mTable, array("stripe_cus"), array("id" => $usid));
  $cur = $gu->stripe_cus;
- $rateResult = Db::run()->pdoQuery("SELECT rate FROM currencies WHERE name='$cur'");
- $currencyRate = isset($rateResult->aResults[0]) ? (float)$rateResult->aResults[0]->rate : 1;
+ $rateResult = Db::run()->first("currencies", array("rate"), array("name" => $cur));
+ $currencyRate = $rateResult ? (float)$rateResult->rate : 1;
  $virtualMinBet = round($currencyRate * 0.1);
  $virtualMaxBet = round($currencyRate * 100);
  $virtualRaceQuery = '?minBet=' . $virtualMinBet . '&maxBet=' . $virtualMaxBet;

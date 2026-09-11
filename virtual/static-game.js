@@ -90,9 +90,12 @@
                 write(maxKey, String(toAmount(maxQuery, maxFallback)));
             }
 
+            var resolvedMin = readNumber(minKey, minFallback);
+            var resolvedMax = readNumber(maxKey, maxFallback);
+
             return {
-                min: readNumber(minKey, minFallback),
-                max: readNumber(maxKey, maxFallback)
+                min: Math.min(resolvedMin, resolvedMax),
+                max: Math.max(resolvedMin, resolvedMax)
             };
         },
         resetCredit: function (gameId, fallback) {
