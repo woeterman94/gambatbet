@@ -56,8 +56,13 @@
                 const GAME_ID = "greyhound";
                 const STARTING_CREDIT = window.VirtualGameStore.getCredit(GAME_ID);
                 const BET_LIMITS = window.VirtualGameStore.getBetLimits(GAME_ID, {min: 1, max: 100});
-                const CHIP_VALUES = [1, 5, 10, 25, 50, 100].map(function (value) {
-                    return Math.round(value * BET_LIMITS.min * 100) / 100;
+                const CHIP_VALUES = Array.from(new Set([BET_LIMITS.min].concat(
+                    [1, 5, 10, 25, 50, 100].filter(function (value) {
+                        return value >= BET_LIMITS.min && value <= BET_LIMITS.max;
+                    }),
+                    [BET_LIMITS.max]
+                ))).sort(function (left, right) {
+                    return left - right;
                 });
                 var oMain = new CMain({
                     money:STARTING_CREDIT,           //USER MONEY
