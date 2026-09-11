@@ -94,6 +94,7 @@
 				});
 					
                 $(oMain).on("save_score", function (evt, iScore) {
+                    window.VirtualGameStore.setCredit(GAME_ID, iScore);
                     if (getParamValue('ctl-arcade') === "true") {
                         parent.__ctlArcadeSaveScore({score: iScore});
                     }
