@@ -58,9 +58,9 @@
                 const BET_LIMITS = window.VirtualGameStore.getBetLimits(GAME_ID, {min: 0.1, max: 100});
                 const GAME_CASH = Math.max(STARTING_CREDIT, BET_LIMITS.max);
                 const CHIP_FACTORS = BET_LIMITS.min < 1 ? [1, 2, 5, 10, 20, 50, 100] : [1, 5, 10, 25, 50, 100];
-                const CHIP_VALUES = Array.from(new Set(CHIP_FACTORS.map(function (value) {
+                const CHIP_VALUES = Array.from(new Set([BET_LIMITS.min].concat(CHIP_FACTORS.map(function (value) {
                     return Math.round(value * BET_LIMITS.min * 100) / 100;
-                }).concat([BET_LIMITS.max]).filter(function (value) {
+                })).concat([BET_LIMITS.max]).filter(function (value) {
                     return value >= BET_LIMITS.min && value <= BET_LIMITS.max;
                 }))).sort(function (left, right) {
                     return left - right;

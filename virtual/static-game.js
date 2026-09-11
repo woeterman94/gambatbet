@@ -106,19 +106,8 @@
             var maxFallback = defaults && typeof defaults.max === 'number' ? defaults.max : 100;
             var minQuery = queryNumber('minBet');
             var maxQuery = queryNumber('maxBet');
-            var minKey = buildKey(gameId, 'minBet');
-            var maxKey = buildKey(gameId, 'maxBet');
-
-            if (minQuery !== null) {
-                write(minKey, String(toAmount(minQuery, minFallback)));
-            }
-
-            if (maxQuery !== null) {
-                write(maxKey, String(toAmount(maxQuery, maxFallback)));
-            }
-
-            var resolvedMin = readNumber(minKey, minFallback);
-            var resolvedMax = readNumber(maxKey, maxFallback);
+            var resolvedMin = toAmount(minQuery, minFallback);
+            var resolvedMax = toAmount(maxQuery, maxFallback);
 
             return {
                 min: Math.min(resolvedMin, resolvedMax),
